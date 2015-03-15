@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="@dimen/tamano_img_animales"
+        android:layout_height="@dimen/tamano_img_animales"
+        android:id="@+id/iv_item_animal_foto"
+        android:scaleType="fitXY"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/tamano_img_personas">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Nombre"
+            android:id="@+id/tv_item_animal_nombre"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Animal"
+            android:id="@+id/tv_item_animal_animal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+</LinearLayout>
