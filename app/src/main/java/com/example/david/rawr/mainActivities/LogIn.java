@@ -43,17 +43,14 @@ public class LogIn extends Activity implements View.OnClickListener {
         Intent intent;
         switch(v.getId()){
             case (R.id.register):
-                tablaDbMethods.openDB();
-                tablaDbMethods.register(username, password);
-                tablaDbMethods.closeDB();
-                Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show();
-                intent = new Intent(LogIn.this, downloading_window.class );
+                intent = new Intent(LogIn.this, SignUp_wndow.class );
                 startActivity(intent);
                 finish_screen();
                 break;
             case (R.id.logInButton):
                 tablaDbMethods.openDB();
                 if(tablaDbMethods.login(username,password) == true){
+                    tablaDbMethods.closeDB();
                     intent = new Intent(LogIn.this, downloading_window.class );
                     startActivity(intent);
                     finish_screen();

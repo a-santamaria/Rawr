@@ -49,7 +49,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SignUp_wndow"
+            android:name=".mainActivities.SignUp_wndow"
             android:label="@string/title_activity_sign_up_wndow" >
         </activity>
     </application>
