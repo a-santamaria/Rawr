@@ -2,9 +2,11 @@ package com.example.david.rawr.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,12 +16,30 @@ import com.example.david.rawr.mainActivities.PetList;
 import com.example.david.rawr.mainActivities.ProspectList;
 import com.example.david.rawr.mainActivities.SocialList;
 import com.example.david.rawr.mainActivities.SocialPost;
+import com.example.david.rawr.mainActivities.downloading_window;
 import com.example.david.rawr.models.Owner;
 import com.example.david.rawr.models.Pet;
 import com.example.david.rawr.models.Post;
 import com.example.david.rawr.models.Prospect;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.apache.http.NameValuePair;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
+
+
+
 
 
 public class DbMethods {
@@ -27,6 +47,14 @@ public class DbMethods {
     private SQLiteDatabase database;
     private Context context;
     private DbManager dbManager;
+
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
+    private String username;
+    private String password;
+
+
+    private String url_create_user = "http://178.62.233.249/rawr/create_user.php";
 
     public DbMethods(Context context){
         this.context = context;
@@ -59,8 +87,12 @@ public class DbMethods {
 
     }
 
-        public void register(String username , String password){
+        public void singUp(String username, String password){
 
+        this.username = username;
+        this.password = password;
+        new CreateNewUser().execute();
+            /*
         try{
             boolean exist = false;
             String [] columns = new String[]{DbManager.NOM_COLUM_USER, DbManager.NOM_COLUM_PASS};
@@ -87,8 +119,63 @@ public class DbMethods {
         }catch (SQLException ex){
             Log.e(TestDB.ERROR_INSERTAR, ex.getMessage());
         }
+        */
 
     }
+
+    class CreateNewUser extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            /*pDialog = new ProgressDialog(NewProductActivity.this);
+            pDialog.setMessage("Creating Product..");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+            */
+        }
+
+        /**
+         * Creating product
+         * */
+        protected String doInBackground(String... args) {
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("password", password));
+
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost(url_create_user);
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(params));
+                HttpResponse response = client.execute(post);
+                Log.i("response ",response.getStatusLine().getStatusCode()+"");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once done
+            //pDialog.dismiss();
+        }
+
+    }
+
 
     public void changePassword(String username,String password){
 

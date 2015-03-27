@@ -20,7 +20,7 @@ public class LogIn extends Activity implements View.OnClickListener {
     Button logIn;
     EditText userText, passText;
     DbMethods tablaDbMethods;
-    TextView register, forgotButton;
+    TextView signUp, forgotButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +28,10 @@ public class LogIn extends Activity implements View.OnClickListener {
         logIn = (Button) findViewById(R.id.logInButton);
         userText = (EditText) findViewById(R.id.userText);
         passText = (EditText) findViewById(R.id.passText);
-        register = (TextView) findViewById(R.id.register);
+        signUp = (TextView) findViewById(R.id.signUp);
         forgotButton = (TextView) findViewById(R.id.forgotPassButton);
         logIn.setOnClickListener(this);
-        register.setOnClickListener(this);
+        signUp.setOnClickListener(this);
         forgotButton.setOnClickListener(this);
         tablaDbMethods = new DbMethods(this);
     }
@@ -42,9 +42,9 @@ public class LogIn extends Activity implements View.OnClickListener {
         String password = passText.getText().toString();
         Intent intent;
         switch(v.getId()){
-            case (R.id.register):
+            case (R.id.signUp):
                 tablaDbMethods.openDB();
-                tablaDbMethods.register(username, password);
+                tablaDbMethods.singUp(username, password);
                 tablaDbMethods.closeDB();
                 Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show();
                 intent = new Intent(LogIn.this, downloading_window.class );
